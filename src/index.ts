@@ -10,7 +10,7 @@ import {
 import axios from "axios";
 
 const API_KEY = process.env.SOCIAVAULT_API_KEY;
-const BASE_URL = "https://sociavault-backend.webscrapingwithola.com/api/scrape";
+const BASE_URL = "https://api.sociavault.com/v1/scrape";
 
 if (!API_KEY) {
   console.error("Error: SOCIAVAULT_API_KEY required");

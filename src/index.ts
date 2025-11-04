@@ -42,7 +42,8 @@ function extractInstagramPosts(data: any, limit = 10) {
     return {
       shortcode: node.shortcode,
       caption: node.edge_media_to_caption?.edges?.[0]?.node?.text || "",
-      likes: node.edge_liked_by?.count || node.edge_media_preview_like?.count || 0,
+      likes:
+        node.edge_liked_by?.count || node.edge_media_preview_like?.count || 0,
       comments: node.edge_media_to_comment?.count || 0,
       timestamp: node.taken_at_timestamp,
       is_video: node.is_video,
@@ -96,7 +97,12 @@ function extractThreadsProfile(data: any) {
 }
 
 function extractTikTokVideos(data: any, limit = 10) {
-  const videos = data?.data?.itemList || data?.itemList || data?.data?.videos || data?.videos || [];
+  const videos =
+    data?.data?.itemList ||
+    data?.itemList ||
+    data?.data?.videos ||
+    data?.videos ||
+    [];
   return videos.slice(0, limit).map((video: any) => {
     const stats = video.statistics || video.stats || {};
     return {
@@ -115,7 +121,7 @@ function extractTikTokVideos(data: any, limit = 10) {
 
 function extractTwitterTweets(data: any, limit = 10) {
   const tweets = data?.data?.tweets || data?.tweets || data?.data || [];
-  const tweetsArray = Array.isArray(tweets) ? tweets : (tweets.timeline || []);
+  const tweetsArray = Array.isArray(tweets) ? tweets : tweets.timeline || [];
   return tweetsArray.slice(0, limit).map((tweet: any) => {
     return {
       id: tweet.id_str || tweet.id,
@@ -151,11 +157,14 @@ function extractYouTubeChannel(data: any) {
   return {
     title: snippet.title || channel.title,
     description: snippet.description || channel.description || "",
-    subscribers: parseInt(statistics.subscriberCount || statistics.subscribers || 0),
-    videos: parseInt(statistics.videoCount || 0),
-    views: parseInt(statistics.viewCount || 0),
+    subscribers:
+      parseInt(statistics.subscriberCount || statistics.subscribers || "0") ||
+      0,
+    videos: parseInt(statistics.videoCount || "0") || 0,
+    views: parseInt(statistics.viewCount || "0") || 0,
     custom_url: channel.customUrl || snippet.customUrl,
-    thumbnail: snippet.thumbnails?.high?.url || snippet.thumbnails?.default?.url,
+    thumbnail:
+      snippet.thumbnails?.high?.url || snippet.thumbnails?.default?.url,
     published_at: snippet.publishedAt || channel.publishedAt,
   };
 }
@@ -176,7 +185,12 @@ function extractFacebookProfile(data: any) {
 }
 
 function extractRedditSubreddit(data: any, limit = 10) {
-  const posts = data?.data?.children || data?.children || data?.data?.posts || data?.posts || [];
+  const posts =
+    data?.data?.children ||
+    data?.children ||
+    data?.data?.posts ||
+    data?.posts ||
+    [];
   return posts.slice(0, limit).map((item: any) => {
     const post = item.data || item;
     return {
@@ -346,9 +360,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       });
       const extracted = extractInstagramProfile(response.data);
       return {
-        content: [
-          { type: "text", text: JSON.stringify(extracted, null, 2) },
-        ],
+        content: [{ type: "text", text: JSON.stringify(extracted, null, 2) }],
       };
     }
 
@@ -360,9 +372,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       });
       const extracted = extractTikTokProfile(response.data);
       return {
-        content: [
-          { type: "text", text: JSON.stringify(extracted, null, 2) },
-        ],
+        content: [{ type: "text", text: JSON.stringify(extracted, null, 2) }],
       };
     }
 
@@ -374,9 +384,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       });
       const extracted = extractTwitterProfile(response.data);
       return {
-        content: [
-          { type: "text", text: JSON.stringify(extracted, null, 2) },
-        ],
+        content: [{ type: "text", text: JSON.stringify(extracted, null, 2) }],
       };
     }
 
@@ -388,9 +396,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       });
       const extracted = extractThreadsProfile(response.data);
       return {
-        content: [
-          { type: "text", text: JSON.stringify(extracted, null, 2) },
-        ],
+        content: [{ type: "text", text: JSON.stringify(extracted, null, 2) }],
       };
     }
 
@@ -403,7 +409,14 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       const extracted = extractInstagramPosts(response.data, 10);
       return {
         content: [
-          { type: "text", text: JSON.stringify({ handle, posts: extracted, total_returned: extracted.length }, null, 2) },
+          {
+            type: "text",
+            text: JSON.stringify(
+              { handle, posts: extracted, total_returned: extracted.length },
+              null,
+              2
+            ),
+          },
         ],
       };
     }
@@ -417,7 +430,14 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       const extracted = extractTikTokVideos(response.data, 10);
       return {
         content: [
-          { type: "text", text: JSON.stringify({ handle, videos: extracted, total_returned: extracted.length }, null, 2) },
+          {
+            type: "text",
+            text: JSON.stringify(
+              { handle, videos: extracted, total_returned: extracted.length },
+              null,
+              2
+            ),
+          },
         ],
       };
     }
@@ -431,7 +451,14 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       const extracted = extractTwitterTweets(response.data, 10);
       return {
         content: [
-          { type: "text", text: JSON.stringify({ handle, tweets: extracted, total_returned: extracted.length }, null, 2) },
+          {
+            type: "text",
+            text: JSON.stringify(
+              { handle, tweets: extracted, total_returned: extracted.length },
+              null,
+              2
+            ),
+          },
         ],
       };
     }
@@ -445,7 +472,14 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       const extracted = extractThreadsPosts(response.data, 10);
       return {
         content: [
-          { type: "text", text: JSON.stringify({ handle, posts: extracted, total_returned: extracted.length }, null, 2) },
+          {
+            type: "text",
+            text: JSON.stringify(
+              { handle, posts: extracted, total_returned: extracted.length },
+              null,
+              2
+            ),
+          },
         ],
       };
     }
@@ -458,9 +492,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       });
       const extracted = extractYouTubeChannel(response.data);
       return {
-        content: [
-          { type: "text", text: JSON.stringify(extracted, null, 2) },
-        ],
+        content: [{ type: "text", text: JSON.stringify(extracted, null, 2) }],
       };
     }
 
@@ -472,9 +504,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       });
       const extracted = extractFacebookProfile(response.data);
       return {
-        content: [
-          { type: "text", text: JSON.stringify(extracted, null, 2) },
-        ],
+        content: [{ type: "text", text: JSON.stringify(extracted, null, 2) }],
       };
     }
 
@@ -487,7 +517,14 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       const extracted = extractRedditSubreddit(response.data, 10);
       return {
         content: [
-          { type: "text", text: JSON.stringify({ subreddit, posts: extracted, total_returned: extracted.length }, null, 2) },
+          {
+            type: "text",
+            text: JSON.stringify(
+              { subreddit, posts: extracted, total_returned: extracted.length },
+              null,
+              2
+            ),
+          },
         ],
       };
     }

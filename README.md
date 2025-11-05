@@ -4,6 +4,10 @@ Query social media data directly in Claude Desktop, Cline, or any MCP-compatible
 
 **Powered by [SociaVault](https://sociavault.com)** - The most reliable social media data API for developers.
 
+<a href="https://glama.ai/mcp/servers/@olamide-olaniyan/sociavault-mcp">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/@olamide-olaniyan/sociavault-mcp/badge" alt="SociaVault Server MCP server" />
+</a>
+
 ## Features
 
 ✅ **Instagram** - Profiles, posts  

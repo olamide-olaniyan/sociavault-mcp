@@ -1,0 +1,36 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.olamide-olaniyan/sociavault-mcp",
+  "description": "Query social media data from TikTok, Instagram, YouTube, X, LinkedIn, Facebook, Reddit, Threads, Pinterest, Twitch, and ad libraries.",
+  "status": "active",
+  "version": "2.0.0",
+  "websiteUrl": "https://sociavault.com",
+  "repository": {
+    "url": "https://github.com/olamide-olaniyan/sociavault-mcp",
+    "source": "github"
+  },
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "sociavault-mcp",
+      "version": "2.0.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "SOCIAVAULT_API_KEY",
+          "description": "Your SociaVault API key (format sk_live_...). Get one at https://sociavault.com/dashboard",
+          "isRequired": true,
+          "isSecret": true
+        },
+        {
+          "name": "SOCIAVAULT_BASE_URL",
+          "description": "Optional override for the API base URL. Defaults to https://api.sociavault.com",
+          "isRequired": false,
+          "isSecret": false
+        }
+      ]
+    }
+  ]
+}

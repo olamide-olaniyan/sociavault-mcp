@@ -1,220 +1,206 @@
 # SociaVault MCP Server
 
-Query social media data directly in Claude Desktop, Cline, or any MCP-compatible AI client.
+Give your AI assistant live access to social media data. This [Model Context Protocol](https://modelcontextprotocol.io) server lets Claude, Cursor, Cline, VS Code, and any MCP-compatible client pull real-time data from 11 platforms — profiles, posts, comments, transcripts, search, trends, and ad libraries — through natural language.
 
-**Powered by [SociaVault](https://sociavault.com)** - The most reliable social media data API for developers.
+**Powered by [SociaVault](https://sociavault.com)** — a reliable social media data API for developers.
+
+[![npm version](https://img.shields.io/npm/v/sociavault-mcp.svg)](https://www.npmjs.com/package/sociavault-mcp)
 
 <a href="https://glama.ai/mcp/servers/@olamide-olaniyan/sociavault-mcp">
   <img width="380" height="200" src="https://glama.ai/mcp/servers/@olamide-olaniyan/sociavault-mcp/badge" alt="SociaVault Server MCP server" />
 </a>
 
-## Features
+## Highlights
 
-✅ **Instagram** - Profiles, posts  
-✅ **TikTok** - Profiles, videos  
-✅ **Twitter/X** - Profiles, tweets  
-✅ **Threads** - Profiles, posts  
-✅ **YouTube** - Channels  
-✅ **Facebook** - Profiles, pages  
-✅ **Reddit** - Subreddits, posts  
+- **107 tools** across TikTok, Instagram, YouTube, Twitter/X, LinkedIn, Facebook, Reddit, Threads, Pinterest, Twitch, and Google.
+- **Ad library coverage** — TikTok, Meta (Facebook/Instagram), Google, and LinkedIn ad libraries for competitor research.
+- **Zero install** — runs via `npx`, no global install needed.
+- **Token-efficient** — responses are trimmed by default to keep your context window lean.
+- **Built on the modern MCP SDK** (1.x) with typed inputs, structured output, and clear error messages.
 
-All accessible directly in your AI assistant with simple natural language commands.
+## Quick start
 
-## Installation
+### 1. Get an API key
 
-### Prerequisites
+Sign up at [sociavault.com](https://sociavault.com/signup) — new accounts get free credits to start. Copy your key (format `sk_live_…`) from the [dashboard](https://sociavault.com/dashboard).
 
-1. **Get your SociaVault API key**  
-   Sign up at [sociavault.com/signup](https://sociavault.com) (free tier available)
+### 2. Add the server to your client
 
-2. **Install the package**
-   ```bash
-   npm install -g sociavault-mcp
-   ```
+The server runs with `npx`, so there's nothing to install. Just add the config below and set your API key.
 
-### Claude Desktop Setup
+#### Claude Desktop
 
-1. Open your Claude Desktop config:
-   - **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
-   - **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
+Edit your config file:
+- **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
 
-2. Add the SociaVault MCP server:
-   ```json
-   {
-     "mcpServers": {
-       "sociavault": {
-         "command": "sociavault-mcp",
-         "env": {
-           "SOCIAVAULT_API_KEY": "your-api-key-here"
-         }
-       }
-     }
-   }
-   ```
+```json
+{
+  "mcpServers": {
+    "sociavault": {
+      "command": "npx",
+      "args": ["-y", "sociavault-mcp"],
+      "env": {
+        "SOCIAVAULT_API_KEY": "sk_live_your_key_here"
+      }
+    }
+  }
+}
+```
 
-3. Restart Claude Desktop
+Restart Claude Desktop.
 
-### Other MCP Clients
+#### Cursor
 
-For Cline, Zed, or other MCP clients, refer to their documentation for adding MCP servers.
+Add to `~/.cursor/mcp.json` (global) or `.cursor/mcp.json` (per-project):
 
-## Usage Examples
+```json
+{
+  "mcpServers": {
+    "sociavault": {
+      "command": "npx",
+      "args": ["-y", "sociavault-mcp"],
+      "env": { "SOCIAVAULT_API_KEY": "sk_live_your_key_here" }
+    }
+  }
+}
+```
 
-Once configured, you can ask Claude natural language questions like:
+#### VS Code (Copilot)
 
-### Instagram
-- "Get the Instagram profile for @nike"
-- "Show me the last 20 posts from @cristiano"
-- "What's Nike's follower count on Instagram?"
+Add to `.vscode/mcp.json`:
+
+```json
+{
+  "servers": {
+    "sociavault": {
+      "command": "npx",
+      "args": ["-y", "sociavault-mcp"],
+      "env": { "SOCIAVAULT_API_KEY": "sk_live_your_key_here" }
+    }
+  }
+}
+```
+
+#### Cline / other clients
+
+Any client that supports stdio MCP servers works — point it at the command `npx -y sociavault-mcp` with `SOCIAVAULT_API_KEY` in the environment.
+
+## Configuration
+
+| Environment variable | Required | Description |
+|----------------------|----------|-------------|
+| `SOCIAVAULT_API_KEY` | Yes | Your SociaVault API key (`sk_live_…`). |
+| `SOCIAVAULT_BASE_URL` | No | Override the API base URL. Defaults to `https://api.sociavault.com`. |
+
+## Usage examples
+
+Once configured, ask your assistant things like:
+
+- "Get the TikTok profile and last 20 videos for @charlidamelio."
+- "Search the Meta Ad Library for active ads from Nike in the US."
+- "Pull the transcript of this YouTube video: <url>."
+- "What's trending on TikTok in the US right now?"
+- "Find Instagram reels using this audio id and summarize the top performers."
+- "Search Reddit for mentions of my product in the last week."
+- "Get the comments on this tweet and summarize the sentiment."
+
+## Tools
+
+All tools are read-only. Most accept a `trim` flag (default `true`) that returns a smaller, AI-friendly payload; set `trim: false` for the full raw response. List endpoints accept a pagination cursor returned in the previous response.
 
 ### TikTok
-- "Get TikTok profile data for @charlidamelio"
-- "Show me the latest videos from @mrbeast"
-- "What's the engagement on Charli D'Amelio's TikTok?"
+`tiktok_profile`, `tiktok_demographics`, `tiktok_videos`, `tiktok_video_info`, `tiktok_transcript`, `tiktok_live`, `tiktok_comments`, `tiktok_comment_replies`, `tiktok_following`, `tiktok_followers`, `tiktok_search_users`, `tiktok_search_hashtag`, `tiktok_search_keyword`, `tiktok_search_music`, `tiktok_search_top`, `tiktok_music_popular`, `tiktok_music_details`, `tiktok_music_videos`, `tiktok_trending`, `tiktok_creators_popular`, `tiktok_videos_popular`, `tiktok_hashtags_popular`
 
-### Twitter/X
-- "Get Twitter profile for @elonmusk"
-- "Show me recent tweets from @OpenAI"
-- "What's the follower count for @OpenAI?"
+### TikTok Shop
+`tiktok_shop_products`, `tiktok_shop_product_details`, `tiktok_shop_search`, `tiktok_shop_product_reviews`
 
-### Threads
-- "Get Threads profile for @zuck"
-- "Show me posts from @Meta on Threads"
+### TikTok Ad Library
+`tiktok_ad_library_search`, `tiktok_ad_library_ad`
+
+### Instagram
+`instagram_profile`, `instagram_posts`, `instagram_post_info`, `instagram_transcript`, `instagram_comments`, `instagram_reels`, `instagram_highlights`, `instagram_highlight_detail`, `instagram_reels_by_song`
 
 ### YouTube
-- "Get YouTube channel data for @MrBeast"
-- "What's the subscriber count for MrBeast?"
+`youtube_channel`, `youtube_channel_videos`, `youtube_channel_shorts`, `youtube_video`, `youtube_video_transcript`, `youtube_search`, `youtube_search_hashtag`, `youtube_video_comments`, `youtube_video_comment_replies`, `youtube_shorts_trending`, `youtube_channel_playlists`, `youtube_channel_lives`, `youtube_channel_community_posts`
+
+### Twitter / X
+`twitter_profile`, `twitter_user_tweets`, `twitter_user_tweets_all`, `twitter_tweet`, `twitter_tweet_transcript`, `twitter_comments`, `twitter_quotes`, `twitter_retweets`, `twitter_search`, `twitter_followers`, `twitter_followings`, `twitter_community`, `twitter_community_tweets`
+
+### LinkedIn
+`linkedin_profile`, `linkedin_company`, `linkedin_post`
+
+### LinkedIn Ad Library
+`linkedin_ad_library_search`, `linkedin_ad_library_ad_details`
 
 ### Facebook
-- "Get Facebook profile for https://facebook.com/nike"
-- "Show me data from the Nike Facebook page"
+`facebook_profile`, `facebook_profile_posts`, `facebook_comment_replies`, `facebook_profile_reels`, `facebook_group_posts`, `facebook_post`, `facebook_post_transcript`, `facebook_post_comments`
+
+### Facebook Ad Library
+`facebook_ad_library_ad_details`, `facebook_ad_library_search`, `facebook_ad_library_company_ads`, `facebook_ad_library_search_companies`
+
+### Facebook Marketplace
+`facebook_marketplace_location_search`, `facebook_marketplace_search`, `facebook_marketplace_item`
+
+### Google
+`google_search`, `google_ad_library_company_ads`, `google_ad_library_ad_details`, `google_ad_library_search_advertisers`
 
 ### Reddit
-- "Get posts from r/programming"
-- "Show me trending posts from r/technology"
+`reddit_subreddit_details`, `reddit_subreddit`, `reddit_subreddit_search`, `reddit_post_comments`, `reddit_post_transcript`, `reddit_search`
 
-## Available Tools
+### Threads
+`threads_profile`, `threads_user_posts`, `threads_post`, `threads_search`, `threads_search_users`
 
-The MCP server exposes these tools to AI clients:
+### Pinterest
+`pinterest_search`, `pinterest_pin`, `pinterest_user_boards`, `pinterest_board`
 
-| Tool | Description |
-|------|-------------|
-| `get_instagram_profile` | Get Instagram profile data (followers, bio, posts count, verification) |
-| `get_instagram_posts` | Get recent Instagram posts with likes, comments, media |
-| `get_tiktok_profile` | Get TikTok profile data (followers, likes, bio, videos count) |
-| `get_tiktok_videos` | Get recent TikTok videos with views, likes, shares |
-| `get_twitter_profile` | Get Twitter/X profile data (followers, bio, tweets count) |
-| `get_twitter_tweets` | Get recent tweets with engagement metrics |
-| `get_threads_profile` | Get Threads profile data (followers, bio, posts count) |
-| `get_threads_posts` | Get recent Threads posts with likes, replies |
-| `get_youtube_channel` | Get YouTube channel data (subscribers, videos, description) |
-| `get_facebook_profile` | Get Facebook profile/page data (followers, likes, about) |
-| `get_reddit_subreddit` | Get Reddit subreddit posts with upvotes, comments |
+### Twitch
+`twitch_profile`, `twitch_user_videos`, `twitch_user_schedule`, `twitch_clip`
 
-## API Limits
-
-Depends on your SociaVault plan:
-
-- **Free tier**: 1,000 requests/month
-- **Pro**: Unlimited requests
-- **Enterprise**: Custom limits + priority support
-
-Check your usage at [sociavault.com/dashboard](https://sociavault.com/dashboard)
+### Account
+`check_credits` — check your remaining credit balance.
 
 ## Pricing
 
-This MCP server is **free and open source**.
+The MCP server is free and open source. You only pay for the SociaVault API usage it makes, billed as **credits** (each API call costs credits depending on the endpoint).
 
-You only pay for SociaVault API usage:
-- **Free**: $0/month (1,000 requests)
-- **Pro**: $29/month (unlimited)
-- **Enterprise**: Custom pricing
+- **Free** — credits included on signup, no card required.
+- **Credit packs** — Starter ($29), Growth ($79), Pro ($199), and Enterprise ($399), each granting a larger bundle of credits.
 
-See full pricing at [sociavault.com/pricing](https://sociavault.com/pricing)
+Credits don't expire on a monthly cycle — you buy a pack and draw it down. See the current packs and credit amounts at [sociavault.com/pricing](https://sociavault.com/pricing), and check your balance any time with the `check_credits` tool.
 
 ## Troubleshooting
 
-### "SOCIAVAULT_API_KEY environment variable is required"
+**"Missing SOCIAVAULT_API_KEY"** — Add your key to the `env` block of the MCP config and restart the client.
 
-Make sure you've added your API key to the MCP config file. Get your key at [sociavault.com/signup](https://sociavault.com)
+**"Authentication failed (401)"** — Your key is wrong or expired, or it's not in the `sk_live_…` format. Generate a fresh one in the [dashboard](https://sociavault.com/dashboard).
 
-### "Authentication error: Invalid API key"
+**"Out of credits (402)"** — Top up at [sociavault.com/pricing](https://sociavault.com/pricing).
 
-Your API key is invalid or expired. Generate a new one at [sociavault.com/dashboard](https://sociavault.com/dashboard)
+**"Not found (404)"** — The handle/URL is wrong, or the account/content is private or deleted.
 
-### "Profile not found"
-
-The username doesn't exist or the account is private. Try a different username.
-
-### Server not appearing in Claude Desktop
-
-1. Check the config file syntax is valid JSON
-2. Restart Claude Desktop completely
-3. Check the logs in `~/Library/Logs/Claude/mcp*.log` (macOS)
+**Server not showing up** — Make sure Node.js 18+ is installed and on your PATH, confirm the JSON config is valid, and fully restart the client. Most clients have an MCP log panel that shows startup errors.
 
 ## Development
 
-Want to contribute or run locally?
-
 ```bash
-# Clone the repo
 git clone https://github.com/olamide-olaniyan/sociavault-mcp.git
 cd sociavault-mcp
-
-# Install dependencies
 npm install
-
-# Build
 npm run build
 
-# Run locally (requires SOCIAVAULT_API_KEY in environment)
-export SOCIAVAULT_API_KEY=your-key-here
-node dist/index.js
+# Run locally
+SOCIAVAULT_API_KEY=sk_live_your_key node dist/index.js
 ```
 
-## Use Cases
+Adding a new endpoint is a single entry in `src/endpoints.ts` — the server registers every entry automatically.
 
-**For Marketers:**
-- Research competitor social media strategies
-- Find influencer profiles and engagement rates
-- Track content performance across platforms
+## Links
 
-**For Developers:**
-- Build social media analytics tools
-- Integrate social data into your apps
-- Prototype social listening tools
-
-**For Researchers:**
-- Analyze social media trends
-- Study creator content patterns
-- Track brand presence across platforms
-
-**For Sales Teams:**
-- Research prospects on social media
-- Verify company social presence
-- Find decision makers and influencers
-
-## Why SociaVault?
-
-- **99.9% uptime** - More reliable than scraping yourself
-- **No rate limits** - Unlimited requests on Pro plan
-- **All platforms** - Instagram, TikTok, Twitter, LinkedIn in one API
-- **Always working** - We handle platform changes, you don't
-- **Great docs** - Clear examples, fast support
-
-Learn more at [sociavault.com](https://sociavault.com)
-
-## Support
-
-- **Documentation**: [sociavault.com/docs](https://docs.sociavault.com)
-- **Email**: support@sociavault.com
+- **Website**: [sociavault.com](https://sociavault.com)
+- **API docs**: [docs.sociavault.com](https://docs.sociavault.com)
+- **Support**: support@sociavault.com
 
 ## License
 
-MIT License - see [LICENSE](LICENSE) file
-
----
-
-**Built with ❤️ by the [SociaVault](https://sociavault.com) team**
-
-Get your API key → [sociavault.com/signup](https://sociavault.com/signup)
+MIT — see [LICENSE](LICENSE).

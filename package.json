@@ -1,46 +1,70 @@
 {
-    "name": "sociavault-mcp",
-    "version": "1.0.0",
-    "description": "Model Context Protocol server for querying social media data via SociaVault API",
-    "author": "SociaVault Team",
-    "license": "MIT",
-    "type": "module",
-    "main": "dist/index.js",
-    "bin": {
-        "sociavault-mcp": "dist/index.js"
-    },
-    "scripts": {
-        "build": "tsc",
-        "dev": "tsc --watch",
-        "prepare": "npm run build"
-    },
-    "keywords": [
-        "mcp",
-        "model-context-protocol",
-        "social-media",
-        "instagram",
-        "tiktok",
-        "twitter",
-        "linkedin",
-        "api",
-        "sociavault",
-        "claude",
-        "ai"
-    ],
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/olamide-olaniyan/sociavault-mcp.git"
-    },
-    "homepage": "https://sociavault.com",
-    "dependencies": {
-        "@modelcontextprotocol/sdk": "^0.5.0",
-        "axios": "^1.6.0"
-    },
-    "devDependencies": {
-        "@types/node": "^20.0.0",
-        "typescript": "^5.3.0"
-    },
-    "engines": {
-        "node": ">=18.0.0"
-    }
+  "name": "sociavault-mcp",
+  "version": "2.0.0",
+  "description": "Model Context Protocol (MCP) server for SociaVault — query TikTok, Instagram, YouTube, Twitter/X, LinkedIn, Facebook, Reddit, Threads, Pinterest, Twitch, TikTok Shop, and ad libraries from any AI assistant.",
+  "author": "SociaVault",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "sociavault-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "mcp-server",
+    "social-media",
+    "scraping",
+    "instagram",
+    "tiktok",
+    "tiktok-shop",
+    "youtube",
+    "twitter",
+    "x",
+    "linkedin",
+    "facebook",
+    "reddit",
+    "threads",
+    "pinterest",
+    "twitch",
+    "ad-library",
+    "api",
+    "sociavault",
+    "claude",
+    "cursor",
+    "ai",
+    "llm"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/olamide-olaniyan/sociavault-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/olamide-olaniyan/sociavault-mcp/issues"
+  },
+  "homepage": "https://sociavault.com",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "axios": "^1.6.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.3.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
 }

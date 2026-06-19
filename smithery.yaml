@@ -1,0 +1,28 @@
+# Smithery configuration — https://smithery.ai/docs
+# Local stdio server distributed via npx. Smithery prompts the user for the
+# API key and launches the server with it in the environment.
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    required:
+      - sociavaultApiKey
+    properties:
+      sociavaultApiKey:
+        type: string
+        title: SociaVault API Key
+        description: "Your SociaVault API key (format sk_live_...). Get one at https://sociavault.com/dashboard"
+      sociavaultBaseUrl:
+        type: string
+        title: API Base URL (optional)
+        description: "Override the API base URL. Defaults to https://api.sociavault.com"
+        default: "https://api.sociavault.com"
+  commandFunction: |-
+    (config) => ({
+      command: 'npx',
+      args: ['-y', 'sociavault-mcp'],
+      env: {
+        SOCIAVAULT_API_KEY: config.sociavaultApiKey,
+        ...(config.sociavaultBaseUrl ? { SOCIAVAULT_BASE_URL: config.sociavaultBaseUrl } : {})
+      }
+    })

@@ -1,6 +1,7 @@
 {
   "name": "sociavault-mcp",
   "version": "2.0.0",
+  "mcpName": "io.github.olamide-olaniyan/sociavault-mcp",
   "description": "Model Context Protocol (MCP) server for SociaVault — query TikTok, Instagram, YouTube, Twitter/X, LinkedIn, Facebook, Reddit, Threads, Pinterest, Twitch, TikTok Shop, and ad libraries from any AI assistant.",
   "author": "SociaVault",
   "license": "MIT",

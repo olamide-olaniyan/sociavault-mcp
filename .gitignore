@@ -9,3 +9,6 @@ dist/
 mcp-publisher
 mcp-publisher.exe
 *.tar.gz
+
+# MCPB bundle build artifact
+*.mcpb

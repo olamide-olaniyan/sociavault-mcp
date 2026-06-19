@@ -1,0 +1,67 @@
+{
+  "manifest_version": "0.3",
+  "name": "sociavault-mcp",
+  "display_name": "SociaVault",
+  "version": "2.0.0",
+  "description": "Scrape social data from TikTok, Instagram, YouTube, X, LinkedIn, Reddit, and ad libraries.",
+  "long_description": "SociaVault gives your AI assistant live access to social media data across 11 platforms — TikTok, Instagram, YouTube, Twitter/X, LinkedIn, Facebook, Reddit, Threads, Pinterest, Twitch, and Google — with 107 tools for profiles, posts, comments, transcripts, search, trends, and ad libraries (TikTok, Meta, Google, LinkedIn). Requires a SociaVault API key.",
+  "author": {
+    "name": "SociaVault",
+    "url": "https://sociavault.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/olamide-olaniyan/sociavault-mcp"
+  },
+  "homepage": "https://sociavault.com",
+  "documentation": "https://docs.sociavault.com",
+  "support": "https://github.com/olamide-olaniyan/sociavault-mcp/issues",
+  "license": "MIT",
+  "keywords": [
+    "social-media",
+    "scraping",
+    "tiktok",
+    "instagram",
+    "youtube",
+    "twitter",
+    "linkedin",
+    "reddit",
+    "ad-library"
+  ],
+  "server": {
+    "type": "node",
+    "entry_point": "dist/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/dist/index.js"],
+      "env": {
+        "SOCIAVAULT_API_KEY": "${user_config.api_key}",
+        "SOCIAVAULT_BASE_URL": "${user_config.base_url}"
+      }
+    }
+  },
+  "tools_generated": true,
+  "user_config": {
+    "api_key": {
+      "type": "string",
+      "title": "SociaVault API Key",
+      "description": "Your SociaVault API key (format sk_live_...). Get one at https://sociavault.com/dashboard",
+      "sensitive": true,
+      "required": true
+    },
+    "base_url": {
+      "type": "string",
+      "title": "API Base URL",
+      "description": "Override the API base URL. Leave as default unless you have a custom endpoint.",
+      "default": "https://api.sociavault.com",
+      "required": false
+    }
+  },
+  "privacy_policies": ["https://sociavault.com/privacy"],
+  "compatibility": {
+    "platforms": ["darwin", "win32", "linux"],
+    "runtimes": {
+      "node": ">=18.0.0"
+    }
+  }
+}

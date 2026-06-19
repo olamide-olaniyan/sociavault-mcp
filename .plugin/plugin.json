@@ -1,0 +1,25 @@
+{
+  "name": "sociavault",
+  "version": "2.0.0",
+  "description": "Scrape social data from TikTok, Instagram, YouTube, X, LinkedIn, Reddit, and ad libraries.",
+  "author": {
+    "name": "SociaVault",
+    "url": "https://sociavault.com"
+  },
+  "homepage": "https://sociavault.com",
+  "repository": "https://github.com/olamide-olaniyan/sociavault-mcp",
+  "license": "MIT",
+  "keywords": [
+    "mcp",
+    "social-media",
+    "scraping",
+    "tiktok",
+    "instagram",
+    "youtube",
+    "twitter",
+    "linkedin",
+    "reddit",
+    "ad-library"
+  ],
+  "mcpServers": "./.mcp.json"
+}

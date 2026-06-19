@@ -1,0 +1,21 @@
+# Keep the .mcpb bundle lean — exclude source, dev tooling, and repo metadata.
+# The bundle ships: manifest.json, dist/, node_modules/ (production), package.json.
+.git
+.github
+src
+scripts
+*.ts
+!*.d.ts
+*.map
+tsconfig.json
+.gitignore
+.npmignore
+.mcpbignore
+server.json
+smithery.yaml
+.mcp.json
+.plugin
+mcp-publisher
+mcp-publisher.exe
+*.tar.gz
+*.mcpb

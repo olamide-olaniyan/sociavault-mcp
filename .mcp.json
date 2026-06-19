@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "sociavault": {
+      "command": "npx",
+      "args": ["-y", "sociavault-mcp"],
+      "env": {
+        "SOCIAVAULT_API_KEY": "${SOCIAVAULT_API_KEY}"
+      }
+    }
+  }
+}

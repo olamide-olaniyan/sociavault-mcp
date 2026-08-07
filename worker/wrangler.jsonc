@@ -1,0 +1,14 @@
+{
+  // Cloudflare Worker config for the hosted SociaVault MCP server.
+  // Docs: https://developers.cloudflare.com/workers/wrangler/configuration/
+  "name": "sociavault-mcp",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-07-01",
+  // api.sociavault.com is on Cloudflare under the same account. Without this
+  // flag, a subrequest to it is treated as a same-zone Worker call and fails
+  // with error 1042. This flag sends fetch() to the public internet instead.
+  "compatibility_flags": ["global_fetch_strictly_public"],
+  "observability": {
+    "enabled": true
+  }
+}
